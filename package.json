@@ -15,7 +15,10 @@
         "!**/__fixtures__",
         "!**/__mocks__"
     ],
-    "keywords": ["react-native", "ios", "android"],
+    "scripts": {
+        "release": "release-it"
+    },
+    "keywords": ["react-native", "ios", "android", "fps", "performance", "stats", "memory"],
     "repository": "https://github.com/skillnation/react-native-performance-stats",
     "author": "Hanno J. Goedecke die.drei99@yahoo.de (https://github.com/hannojg)",
     "license": "MIT",
@@ -23,7 +26,10 @@
         "url": "https://github.com/skillnation/react-native-performance-stats/issues"
     },
     "homepage": "https://github.com/skillnation/react-native-performance-stats#readme",
-    "devDependencies": {},
+    "devDependencies": {
+        "@release-it/conventional-changelog": "^2.0.0",
+        "release-it": "^14.2.2"
+    },
     "peerDependencies": {
         "react": "*",
         "react-native": "*"
