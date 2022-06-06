@@ -5,31 +5,29 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 
-import nl.skillnation.perfstats.NativePerformanceTrackerSpec;
-
-public class PerformanceStatsModule extends NativePerformanceTrackerSpec {
-    private final PerformanceStatsImpl performanceTracker;
+public class PerformanceStatsModule extends NativePerformanceStatsSpec {
+    private final PerformanceStatsImpl performanceStats;
 
     public PerformanceStatsModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.performanceTracker = new PerformanceTrackerImpl(reactContext);
+        this.performanceStats = new PerformanceStatsImpl(reactContext);
     }
 
     @NonNull
     @Override
     public String getName() {
-        return PerformanceTrackerImpl.NAME;
+        return PerformanceStatsImpl.NAME;
     }
 
     @Override
     @ReactMethod
     public void start() {
-        performanceTracker.start();
+        performanceStats.start();
     }
 
     @Override
     @ReactMethod
     public void stop() {
-        performanceTracker.stop();
+        performanceStats.stop();
     }
 }
