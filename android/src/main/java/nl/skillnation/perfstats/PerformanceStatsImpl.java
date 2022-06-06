@@ -3,7 +3,6 @@ package nl.skillnation.perfstats;
 
 import android.os.Debug;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -43,7 +42,7 @@ public class PerformanceStatsImpl {
         mStatsMonitorRunnable.stop();
     }
 
-    private void setCurrentStats(double uiFPS, double jsFPS, int framesDropped, int shutters, long usedRam) {
+    private void setCurrentStats(double uiFPS, double jsFPS, int framesDropped, int shutters, double usedRam) {
         WritableMap state = Arguments.createMap();
         state.putDouble("uiFps", uiFPS);
         state.putDouble("jsFps", jsFPS);
@@ -102,17 +101,13 @@ public class PerformanceStatsImpl {
             mShouldStop = true;
         }
 
-        // https://stackoverflow.com/a/19267315/3668241
-        private long getUsedRam() {
-            // get heap
-            final Runtime runtime = Runtime.getRuntime();
-            final long usedMemInMB= (runtime.totalMemory() - runtime.freeMemory()) / 1048576L;
-            // get native
-            long nativeHeapSize = Debug.getNativeHeapSize();
-            long nativeHeapFreeSize = Debug.getNativeHeapFreeSize();
-            long usedNativeMemInMB = (nativeHeapSize - nativeHeapFreeSize) / 1048576L;
+        // NOTE: may not be exactly the same as seen in Profiler, as graphics can't be retrieved.
+        // Read here: https://developer.android.com/reference/android/os/Debug#getMemoryInfo(android.os.Debug.MemoryInfo)
+        private double getUsedRam() {
+            Debug.MemoryInfo memoryInfo = new Debug.MemoryInfo();
+            Debug.getMemoryInfo(memoryInfo);
 
-            return usedNativeMemInMB + usedMemInMB;
+            return memoryInfo.getTotalPss() / 1000D;
         }
     }
 }
