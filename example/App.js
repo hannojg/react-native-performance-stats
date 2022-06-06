@@ -15,7 +15,7 @@ import {
 
 import PerformanceStats from "react-native-performance-stats";
 
-const DEV_WITH_UI_UPDATES = false;
+const DEV_WITH_UI_UPDATES = true;
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -26,7 +26,7 @@ const App = () => {
 
   const [stats, setStats] = useState("");
   const statsUpdatedCallback = (stats) => {
-    const statsStr = `UI: ${stats.uiFps.toFixed(2)}fps, JS: ${stats.jsFps.toFixed(2)}fps, Shutters: ${stats.shutters}, RAM: ${stats.usedRam}MB, CPU: ${stats.usedCpu}%\n`;
+    const statsStr = `UI: ${stats.uiFps.toFixed(2)}fps, JS: ${stats.jsFps.toFixed(2)}fps, Shutters: ${stats.shutters}, mem: ${stats.usedRam.toFixed(2)}MB, CPU: ${stats.usedCpu.toFixed(2)}%\n`;
     if (DEV_WITH_UI_UPDATES){
       setStats((prev) => {
         return prev + statsStr;
