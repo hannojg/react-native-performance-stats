@@ -3,8 +3,8 @@ import { NativeModules } from 'react-native'
 
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
-const calculator = isTurboModuleEnabled ?
+const PerformanceStats = isTurboModuleEnabled ?
   require("./NativePerformanceStats").default :
-  NativeModules.Calculator;
+  NativeModules.PerformanceStats;
 
-export default calculator;
+export default PerformanceStats;

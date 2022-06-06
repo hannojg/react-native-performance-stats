@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import nl.skillnation.perfstats.PerformanceStatsImpl;
+import com.facebook.react.bridge.ReactMethod;
 
 public class PerformanceStatsModule extends ReactContextBaseJavaModule {
+    private final PerformanceStatsImpl performanceStats;
     public PerformanceStatsModule(ReactApplicationContext reactContext) {
         super(reactContext);
+        performanceStats = new PerformanceStatsImpl(reactContext);
     }
 
     @NonNull
@@ -18,13 +20,13 @@ public class PerformanceStatsModule extends ReactContextBaseJavaModule {
     }
 
 
-    @Override
+    @ReactMethod
     public void start() {
-        // PerformanceTrackerImpl.start();
+        performanceStats.start();
     }
 
-    @Override
+    @ReactMethod
     public void stop() {
-        // PerformanceTrackerImpl.stop();
+        performanceStats.stop();
     }
 }

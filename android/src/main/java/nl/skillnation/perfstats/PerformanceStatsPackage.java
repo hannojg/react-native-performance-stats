@@ -20,7 +20,7 @@ public class PerformanceStatsPackage extends TurboReactPackage {
     @Override
     public NativeModule getModule(String name, ReactApplicationContext reactContext) {
         if (name.equals(PerformanceStatsImpl.NAME)) {
-            return new CalculatorModule(reactContext);
+            return new nl.skillnation.perfstats.PerformanceStatsModule(reactContext);
         } else {
             return null;
         }

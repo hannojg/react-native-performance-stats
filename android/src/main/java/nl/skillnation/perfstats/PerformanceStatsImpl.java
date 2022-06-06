@@ -3,6 +3,7 @@ package nl.skillnation.perfstats;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.debug.FpsDebugFrameCallback;
@@ -19,7 +20,7 @@ public class PerformanceStatsImpl {
     private final FPSMonitorRunnable mFPSMonitorRunnable;
     private Handler handler;
 
-    public PerformanceTrackerImpl(ReactContext context) {
+    public PerformanceStatsImpl(ReactContext context) {
         mFrameCallback = new FpsDebugFrameCallback(context);
         mFPSMonitorRunnable = new FPSMonitorRunnable();
     }
@@ -39,8 +40,9 @@ public class PerformanceStatsImpl {
 
     private void setCurrentFPS(double uiFPS, double jsFPS, int framesDropped, int shutters) {
         Log.d("HannoDebug", String.format(
-                "UI: %.1f fps",
-                uiFPS)
+                "UI: %.1f fps, JS: %.1f fps",
+                uiFPS,
+                jsFPS)
         );
     }
 
