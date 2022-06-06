@@ -90,6 +90,8 @@ public class PerformanceStatsImpl {
             }
             mTotalFramesDropped += mFrameCallback.getExpectedNumFrames() - mFrameCallback.getNumFrames();
             mTotal4PlusFrameStutters += mFrameCallback.get4PlusFrameStutters();
+            double fps = mFrameCallback.getFPS();
+            double jsFps = mFrameCallback.getJSFPS();
 
             double cpuUsage = 0;
             if (withCPU) {
@@ -99,12 +101,14 @@ public class PerformanceStatsImpl {
                 }
             }
 
+            double usedRam = getUsedRam();
+
             setCurrentStats(
-                    mFrameCallback.getFPS(),
-                    mFrameCallback.getJSFPS(),
+                    fps,
+                    jsFps,
                     mTotalFramesDropped,
                     mTotal4PlusFrameStutters,
-                    getUsedRam(),
+                    usedRam,
                     cpuUsage
             );
             mFrameCallback.reset();
