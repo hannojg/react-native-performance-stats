@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   Button,
   SafeAreaView,
@@ -25,7 +25,21 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const onPressStart = () => {
+  const statUpdateCallback = (stats) => {
+    console.log({stats});
+  }
+
+  let prevListenerRef = useRef();
+  const onPressStopListener = () => {
+    prevListenerRef.current?.remove();
+    PerformanceStats.stop();
+    prevListenerRef.current = null;
+  }
+
+  const onPressStartListener = () => {
+    onPressStopListener();
+
+    prevListenerRef.current = PerformanceStats.addListener(statUpdateCallback);
     PerformanceStats.start();
   }
 
@@ -36,7 +50,8 @@ const App = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Button title="Start" onPress={onPressStart} />
+      <Button title="Start listener" onPress={onPressStartListener} />
+      <Button title="Stop listener" onPress={onPressStopListener} />
       <Button title="Press me for degregated performance" onPress={onPressCalc} />
     </SafeAreaView>
   );

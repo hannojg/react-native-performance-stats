@@ -2,13 +2,14 @@ package nl.skillnation.perfstats;
 
 
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 
+import androidx.annotation.Nullable;
+
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.modules.debug.FpsDebugFrameCallback;
-
-import java.util.Locale;
 
 // Most important impl details from: https://github.com/facebook/react-native/blob/main/ReactAndroid/src/main/java/com/facebook/react/devsupport/FpsView.java
 public class PerformanceStatsImpl {
@@ -18,11 +19,13 @@ public class PerformanceStatsImpl {
 
     private final FpsDebugFrameCallback mFrameCallback;
     private final FPSMonitorRunnable mFPSMonitorRunnable;
+    private final ReactContext reactContext;
     private Handler handler;
 
     public PerformanceStatsImpl(ReactContext context) {
         mFrameCallback = new FpsDebugFrameCallback(context);
         mFPSMonitorRunnable = new FPSMonitorRunnable();
+        reactContext = context;
     }
 
     public void start() {
@@ -39,12 +42,26 @@ public class PerformanceStatsImpl {
     }
 
     private void setCurrentFPS(double uiFPS, double jsFPS, int framesDropped, int shutters) {
-        Log.d("HannoDebug", String.format(
-                "UI: %.1f fps, JS: %.1f fps",
-                uiFPS,
-                jsFPS)
-        );
+        WritableMap state = Arguments.createMap();
+        state.putDouble("uiFps", uiFPS);
+        state.putDouble("jsFps", jsFPS);
+        state.putInt("framesDropped", framesDropped);
+        state.putInt("shutters", shutters);
+
+        sendEvent(state);
     }
+
+    private void sendEvent(@Nullable Object data) {
+        if (reactContext == null) {
+            return;
+        }
+
+        if (!reactContext.hasActiveReactInstance()) {
+            return;
+        }
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("performanceStatsUpdate", data);
+    }
+
 
     /** Timer that runs every UPDATE_INTERVAL_MS ms and updates the currently displayed FPS. */
     private class FPSMonitorRunnable implements Runnable {
