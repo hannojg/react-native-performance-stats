@@ -1,7 +1,9 @@
 package nl.skillnation.perfstats;
 
 
+import android.os.Debug;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -18,13 +20,13 @@ public class PerformanceStatsImpl {
     private static final int UPDATE_INTERVAL_MS = 500;
 
     private final FpsDebugFrameCallback mFrameCallback;
-    private final FPSMonitorRunnable mFPSMonitorRunnable;
+    private final StatsMonitorRunnable mStatsMonitorRunnable;
     private final ReactContext reactContext;
     private Handler handler;
 
     public PerformanceStatsImpl(ReactContext context) {
         mFrameCallback = new FpsDebugFrameCallback(context);
-        mFPSMonitorRunnable = new FPSMonitorRunnable();
+        mStatsMonitorRunnable = new StatsMonitorRunnable();
         reactContext = context;
     }
 
@@ -32,21 +34,22 @@ public class PerformanceStatsImpl {
         handler = new Handler();
         mFrameCallback.reset();
         mFrameCallback.start();
-        mFPSMonitorRunnable.start();
+        mStatsMonitorRunnable.start();
     }
 
     public void stop() {
         handler = null;
         mFrameCallback.stop();
-        mFPSMonitorRunnable.stop();
+        mStatsMonitorRunnable.stop();
     }
 
-    private void setCurrentFPS(double uiFPS, double jsFPS, int framesDropped, int shutters) {
+    private void setCurrentStats(double uiFPS, double jsFPS, int framesDropped, int shutters, long usedRam) {
         WritableMap state = Arguments.createMap();
         state.putDouble("uiFps", uiFPS);
         state.putDouble("jsFps", jsFPS);
         state.putInt("framesDropped", framesDropped);
         state.putInt("shutters", shutters);
+        state.putDouble("usedRam", usedRam);
 
         sendEvent(state);
     }
@@ -63,8 +66,8 @@ public class PerformanceStatsImpl {
     }
 
 
-    /** Timer that runs every UPDATE_INTERVAL_MS ms and updates the currently displayed FPS. */
-    private class FPSMonitorRunnable implements Runnable {
+    /** Timer that runs every UPDATE_INTERVAL_MS ms and updates the currently displayed FPS and resource usages. */
+    private class StatsMonitorRunnable implements Runnable {
 
         private boolean mShouldStop = false;
         private int mTotalFramesDropped = 0;
@@ -77,11 +80,13 @@ public class PerformanceStatsImpl {
             }
             mTotalFramesDropped += mFrameCallback.getExpectedNumFrames() - mFrameCallback.getNumFrames();
             mTotal4PlusFrameStutters += mFrameCallback.get4PlusFrameStutters();
-            setCurrentFPS(
+            setCurrentStats(
                     mFrameCallback.getFPS(),
                     mFrameCallback.getJSFPS(),
                     mTotalFramesDropped,
-                    mTotal4PlusFrameStutters);
+                    mTotal4PlusFrameStutters,
+                    getUsedRam()
+            );
             mFrameCallback.reset();
 
             // TODO: not sure if we need to run that on a view
@@ -95,6 +100,19 @@ public class PerformanceStatsImpl {
 
         public void stop() {
             mShouldStop = true;
+        }
+
+        // https://stackoverflow.com/a/19267315/3668241
+        private long getUsedRam() {
+            // get heap
+            final Runtime runtime = Runtime.getRuntime();
+            final long usedMemInMB= (runtime.totalMemory() - runtime.freeMemory()) / 1048576L;
+            // get native
+            long nativeHeapSize = Debug.getNativeHeapSize();
+            long nativeHeapFreeSize = Debug.getNativeHeapFreeSize();
+            long usedNativeMemInMB = (nativeHeapSize - nativeHeapFreeSize) / 1048576L;
+
+            return usedNativeMemInMB + usedMemInMB;
         }
     }
 }
