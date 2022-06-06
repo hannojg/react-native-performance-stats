@@ -10,7 +10,7 @@ const PerformanceStatsNativeModule = isTurboModuleEnabled ?
 // export default PerformanceStatsNativeModule;
 
 export default {
-  start: () => PerformanceStatsNativeModule.start(),
+  start: (withCPU = false) => PerformanceStatsNativeModule.start(withCPU),
   stop: () => PerformanceStatsNativeModule.stop(),
   addListener: (listenerCallback) => {
     const eventEmitter = new NativeEventEmitter(PerformanceStatsNativeModule);

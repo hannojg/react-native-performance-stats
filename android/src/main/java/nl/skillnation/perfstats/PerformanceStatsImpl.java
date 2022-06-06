@@ -12,6 +12,10 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.modules.debug.FpsDebugFrameCallback;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 // Most important impl details from: https://github.com/facebook/react-native/blob/main/ReactAndroid/src/main/java/com/facebook/react/devsupport/FpsView.java
 public class PerformanceStatsImpl {
     public static final String NAME = "PerformanceStats";
@@ -22,14 +26,20 @@ public class PerformanceStatsImpl {
     private final StatsMonitorRunnable mStatsMonitorRunnable;
     private final ReactContext reactContext;
     private Handler handler;
+    private final String packageName;
 
     public PerformanceStatsImpl(ReactContext context) {
         mFrameCallback = new FpsDebugFrameCallback(context);
         mStatsMonitorRunnable = new StatsMonitorRunnable();
         reactContext = context;
+        packageName = context.getPackageName();
     }
 
-    public void start() {
+    // Config
+    private boolean withCPU = false;
+
+    public void start(Boolean withCPU) {
+        this.withCPU = withCPU;
         handler = new Handler();
         mFrameCallback.reset();
         mFrameCallback.start();
@@ -42,13 +52,14 @@ public class PerformanceStatsImpl {
         mStatsMonitorRunnable.stop();
     }
 
-    private void setCurrentStats(double uiFPS, double jsFPS, int framesDropped, int shutters, double usedRam) {
+    private void setCurrentStats(double uiFPS, double jsFPS, int framesDropped, int shutters, double usedRam, double usedCpu) {
         WritableMap state = Arguments.createMap();
         state.putDouble("uiFps", uiFPS);
         state.putDouble("jsFps", jsFPS);
         state.putInt("framesDropped", framesDropped);
         state.putInt("shutters", shutters);
         state.putDouble("usedRam", usedRam);
+        state.putDouble("usedCpu", usedCpu);
 
         sendEvent(state);
     }
@@ -79,12 +90,22 @@ public class PerformanceStatsImpl {
             }
             mTotalFramesDropped += mFrameCallback.getExpectedNumFrames() - mFrameCallback.getNumFrames();
             mTotal4PlusFrameStutters += mFrameCallback.get4PlusFrameStutters();
+
+            double cpuUsage = 0;
+            if (withCPU) {
+                try {
+                    cpuUsage = getUsedCPU();
+                } catch (Exception e) {
+                }
+            }
+
             setCurrentStats(
                     mFrameCallback.getFPS(),
                     mFrameCallback.getJSFPS(),
                     mTotalFramesDropped,
                     mTotal4PlusFrameStutters,
-                    getUsedRam()
+                    getUsedRam(),
+                    cpuUsage
             );
             mFrameCallback.reset();
 
@@ -108,6 +129,23 @@ public class PerformanceStatsImpl {
             Debug.getMemoryInfo(memoryInfo);
 
             return memoryInfo.getTotalPss() / 1000D;
+        }
+
+        private double getUsedCPU() throws IOException {
+            String[] commands = { "top", "-n", "1", "-q", "-oCMDLINE,%CPU", "-s2", "-b" };
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(Runtime.getRuntime().exec(commands).getInputStream())
+            );
+            String line;
+            double cpuUsage = 0;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains(packageName)) continue;
+                line = line.replace(packageName, "").replaceAll(" ", "");
+                cpuUsage = Double.parseDouble(line);
+                break;
+            }
+            reader.close();
+            return cpuUsage;
         }
     }
 }

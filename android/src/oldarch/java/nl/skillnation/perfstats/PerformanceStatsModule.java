@@ -21,8 +21,8 @@ public class PerformanceStatsModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void start() {
-        performanceStats.start();
+    public void start(Boolean withCPU) {
+        performanceStats.start(withCPU);
     }
 
     @ReactMethod
