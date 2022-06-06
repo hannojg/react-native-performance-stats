@@ -107,7 +107,6 @@ No additional steps for android are required, except when using the new react na
 
 ## Caveats
 
-- 🤖 Currently android only, iOS support will be added shortly
 - By default, no CPU usage will be tracked, as tracking adds a little overhead. Pass `true` to the `.start` function to track CPU as well.
 - The FPS reported may not match 100% from what you see in the "Perf Monitor". However, the values are really close to each other and convey the same information.
   - Technically, this is due to the fact that we only "refresh" the FPS every 500ms in the native impl (so does the "Perf Monitor"). And the `react-native-performance-stats` may started tracking at another point in time than the "Perf Monitor", thus they refresh at different times.
