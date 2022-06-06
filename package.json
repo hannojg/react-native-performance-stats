@@ -1,0 +1,40 @@
+{
+    "name": "react-native-performance-stats",
+    "version": "0.0.1",
+    "description": "Get FPS, memory and CPU usage of your React Native app",
+    "react-native": "src/index",
+    "source": "src/index",
+    "files": [
+        "src",
+        "android",
+        "ios",
+        "example-library.podspec",
+        "!android/build",
+        "!ios/build",
+        "!**/__tests__",
+        "!**/__fixtures__",
+        "!**/__mocks__"
+    ],
+    "keywords": ["react-native", "ios", "android"],
+    "repository": "https://github.com/skillnation/react-native-performance-stats",
+    "author": "Hanno J. Goedecke die.drei99@yahoo.de (https://github.com/hannojg)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/skillnation/react-native-performance-stats/issues"
+    },
+    "homepage": "https://github.com/skillnation/react-native-performance-stats#readme",
+    "devDependencies": {},
+    "peerDependencies": {
+        "react": "*",
+        "react-native": "*"
+    },
+    "codegenConfig": {
+        "libraries": [
+            {
+            "name": "RNPerformanceStatsSpec",
+            "type": "modules",
+            "jsSrcsDir": "src"
+            }
+        ]
+    }
+}
