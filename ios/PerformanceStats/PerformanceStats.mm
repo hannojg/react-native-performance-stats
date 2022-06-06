@@ -1,4 +1,5 @@
 #import "PerformanceStats.h"
+#import "FPSTracker.h"
 #import <mach/mach.h>
 #import <React/RCTBridge+Private.h>
 #import <React/RCTBridge.h>
@@ -26,9 +27,15 @@ static vm_size_t RCTGetResidentMemorySize(void)
 
 @implementation PerformanceStats {
     bool _isRunning;
+    
+    FPSTracker *_uiFPSTracker;
+    FPSTracker *_jsFPSTracker;
+    
+    CADisplayLink *_uiDisplayLink;
+    CADisplayLink *_jsDisplayLink;
 }
 
-@synthesize bridge = _bridge;
+//@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE(PerformanceStats)
 
@@ -50,7 +57,7 @@ RCT_EXPORT_MODULE(PerformanceStats)
 - (void)updateStats
 {
     // View count
-    NSDictionary<NSNumber *, UIView *> *views = [_bridge.uiManager valueForKey:@"viewRegistry"];
+    NSDictionary<NSNumber *, UIView *> *views = [self.bridge.uiManager valueForKey:@"viewRegistry"];
     NSUInteger viewCount = views.count;
     NSUInteger visibleViewCount = 0;
     for (UIView *view in views.allValues) {
@@ -63,8 +70,8 @@ RCT_EXPORT_MODULE(PerformanceStats)
     double mem = (double)RCTGetResidentMemorySize() / 1024 / 1024;
     
     [self sendEventWithName:@"performanceStatsUpdate" body:@{
-        @"jsFps": @60,
-        @"uiFps": @120,
+        @"jsFps": [NSNumber numberWithUnsignedInteger:_jsFPSTracker.FPS],
+        @"uiFps": [NSNumber numberWithUnsignedInteger:_uiFPSTracker.FPS],
         @"usedRam": [NSNumber numberWithDouble:mem],
         @"viewCount": [NSNumber numberWithUnsignedInteger:viewCount],
         @"visibleViewCount": [NSNumber numberWithUnsignedInteger:visibleViewCount]
@@ -79,16 +86,45 @@ RCT_EXPORT_MODULE(PerformanceStats)
     });
 }
 
+- (void)threadUpdate:(CADisplayLink *)displayLink
+{
+  FPSTracker *tracker = displayLink == _jsDisplayLink ? _jsFPSTracker : _uiFPSTracker;
+  [tracker onTick:displayLink.timestamp];
+}
+
 RCT_REMAP_METHOD(start, withCpu:(NSInteger*)withCpu)
 {
     _isRunning = true;
+    _uiFPSTracker= [[FPSTracker alloc] init];
+    _jsFPSTracker= [[FPSTracker alloc] init];
+    
     [self updateStats];
+    
+    // Get FPS for UI Thread
+    _uiDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(threadUpdate:)];
+    [_uiDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    
+    // Get FPS for JS thread
+    [self.bridge
+        dispatchBlock:^{
+          self->_jsDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(threadUpdate:)];
+          [self->_jsDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        }
+                queue:RCTJSThread];
     
 }
 
 RCT_EXPORT_METHOD(stop)
 {
     _isRunning = false;
+    _jsFPSTracker = nil;
+    _uiFPSTracker = nil;
+    
+    [_uiDisplayLink invalidate];
+    [_jsDisplayLink invalidate];
+    
+    _uiDisplayLink = nil;
+    _jsDisplayLink = nil;
 }
 
 // Thanks to this guard, we won't compile this code when we build for the old architecture.
