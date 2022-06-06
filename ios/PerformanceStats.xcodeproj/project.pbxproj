@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD093DEB27EB3F3E00B895EF /* RNCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = CD093DEA27EB3F3E00B895EF /* RNCalculator.m */; };
-		CD093DEC27EB3F3E00B895EF /* RNCalculator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD093DE927EB3F3E00B895EF /* RNCalculator.h */; };
+		ACB74D32284E4F9000FBD2A4 /* PerformanceStats.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACB74D31284E4F9000FBD2A4 /* PerformanceStats.mm */; };
+		CD093DEC27EB3F3E00B895EF /* PerformanceStats.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD093DE927EB3F3E00B895EF /* PerformanceStats.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,16 +18,16 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				CD093DEC27EB3F3E00B895EF /* RNCalculator.h in CopyFiles */,
+				CD093DEC27EB3F3E00B895EF /* PerformanceStats.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CD093DE627EB3F3E00B895EF /* libRNCalculator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNCalculator.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD093DE927EB3F3E00B895EF /* RNCalculator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNCalculator.h; sourceTree = "<group>"; };
-		CD093DEA27EB3F3E00B895EF /* RNCalculator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNCalculator.m; sourceTree = "<group>"; };
+		ACB74D31284E4F9000FBD2A4 /* PerformanceStats.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PerformanceStats.mm; sourceTree = "<group>"; };
+		CD093DE627EB3F3E00B895EF /* libPerformanceStats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPerformanceStats.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD093DE927EB3F3E00B895EF /* PerformanceStats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerformanceStats.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,7 +44,7 @@
 		CD093DDD27EB3F3E00B895EF = {
 			isa = PBXGroup;
 			children = (
-				CD093DE827EB3F3E00B895EF /* RNCalculator */,
+				CD093DE827EB3F3E00B895EF /* PerformanceStats */,
 				CD093DE727EB3F3E00B895EF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,26 +52,26 @@
 		CD093DE727EB3F3E00B895EF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CD093DE627EB3F3E00B895EF /* libRNCalculator.a */,
+				CD093DE627EB3F3E00B895EF /* libPerformanceStats.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CD093DE827EB3F3E00B895EF /* RNCalculator */ = {
+		CD093DE827EB3F3E00B895EF /* PerformanceStats */ = {
 			isa = PBXGroup;
 			children = (
-				CD093DE927EB3F3E00B895EF /* RNCalculator.h */,
-				CD093DEA27EB3F3E00B895EF /* RNCalculator.m */,
+				ACB74D31284E4F9000FBD2A4 /* PerformanceStats.mm */,
+				CD093DE927EB3F3E00B895EF /* PerformanceStats.h */,
 			);
-			path = RNCalculator;
+			path = PerformanceStats;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CD093DE527EB3F3E00B895EF /* RNCalculator */ = {
+		CD093DE527EB3F3E00B895EF /* PerformanceStats */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CD093DEF27EB3F3E00B895EF /* Build configuration list for PBXNativeTarget "RNCalculator" */;
+			buildConfigurationList = CD093DEF27EB3F3E00B895EF /* Build configuration list for PBXNativeTarget "PerformanceStats" */;
 			buildPhases = (
 				CD093DE227EB3F3E00B895EF /* Sources */,
 				CD093DE327EB3F3E00B895EF /* Frameworks */,
@@ -81,9 +81,9 @@
 			);
 			dependencies = (
 			);
-			name = RNCalculator;
+			name = PerformanceStats;
 			productName = RNCalculator;
-			productReference = CD093DE627EB3F3E00B895EF /* libRNCalculator.a */;
+			productReference = CD093DE627EB3F3E00B895EF /* libPerformanceStats.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -100,7 +100,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CD093DE127EB3F3E00B895EF /* Build configuration list for PBXProject "RNCalculator" */;
+			buildConfigurationList = CD093DE127EB3F3E00B895EF /* Build configuration list for PBXProject "PerformanceStats" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -113,7 +113,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CD093DE527EB3F3E00B895EF /* RNCalculator */,
+				CD093DE527EB3F3E00B895EF /* PerformanceStats */,
 			);
 		};
 /* End PBXProject section */
@@ -123,7 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD093DEB27EB3F3E00B895EF /* RNCalculator.m in Sources */,
+				ACB74D32284E4F9000FBD2A4 /* PerformanceStats.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +267,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CD093DE127EB3F3E00B895EF /* Build configuration list for PBXProject "RNCalculator" */ = {
+		CD093DE127EB3F3E00B895EF /* Build configuration list for PBXProject "PerformanceStats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD093DED27EB3F3E00B895EF /* Debug */,
@@ -276,7 +276,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CD093DEF27EB3F3E00B895EF /* Build configuration list for PBXNativeTarget "RNCalculator" */ = {
+		CD093DEF27EB3F3E00B895EF /* Build configuration list for PBXNativeTarget "PerformanceStats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CD093DF027EB3F3E00B895EF /* Debug */,
