@@ -10,6 +10,7 @@
         "android",
         "ios",
         "example-library.podspec",
+        "types.d.ts",
         "!android/build",
         "!ios/build",
         "!**/__tests__",
