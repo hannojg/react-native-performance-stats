@@ -1,6 +1,6 @@
 {
     "name": "react-native-performance-stats",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Get FPS, memory and CPU usage of your React Native app",
     "react-native": "src/index",
     "source": "src/index",
@@ -46,25 +46,25 @@
     },
     "release-it": {
         "git": {
-          "commitMessage": "chore: release ${version}",
-          "tagName": "v${version}"
+            "commitMessage": "chore: release ${version}",
+            "tagName": "v${version}"
         },
         "npm": {
-          "publish": true
+            "publish": true
         },
         "github": {
-          "release": true
+            "release": true
         },
         "plugins": {
-          "@release-it/conventional-changelog": {
-            "preset": "angular"
-          }
+            "@release-it/conventional-changelog": {
+                "preset": "angular"
+            }
         }
     },
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org"
-      },
+    },
     "codegenConfig": {
         "libraries": [
             {
