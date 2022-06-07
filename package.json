@@ -9,7 +9,7 @@
         "src",
         "android",
         "ios",
-        "example-library.podspec",
+        "react-native-performance-stats.podspec",
         "types.d.ts",
         "!android/build",
         "!ios/build",

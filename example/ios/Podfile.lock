@@ -623,7 +623,7 @@ PODS:
   - React-jsinspector (0.68.2)
   - React-logger (0.68.2):
     - glog
-  - react-native-performance-stats (0.1.1):
+  - react-native-performance-stats (0.2.2):
     - RCT-Folly (= 2021.06.28.00-v2)
     - RCTRequired
     - RCTTypeSafety
@@ -904,7 +904,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b7b553412f2ec768fe6c8f27cd6bafdb9d8719e6
   React-jsinspector: c5989c77cb89ae6a69561095a61cce56a44ae8e8
   React-logger: a0833912d93b36b791b7a521672d8ee89107aff1
-  react-native-performance-stats: d6b47f014a7ca45f1acd5515425f9b31827aebe1
+  react-native-performance-stats: 000b6b101104fad7f68bda0008f7006c6283e437
   React-perflogger: a18b4f0bd933b8b24ecf9f3c54f9bf65180f3fe6
   React-RCTActionSheet: 547fe42fdb4b6089598d79f8e1d855d7c23e2162
   React-RCTAnimation: bc9440a1c37b06ae9ebbb532d244f607805c6034
@@ -925,4 +925,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c45c300f71c4463d3461b5dc8654e9267689d744
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2
