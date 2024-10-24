@@ -91,8 +91,8 @@ public class PerformanceStatsImpl {
             // Collect FPS info
             mTotalFramesDropped += mFrameCallback.getExpectedNumFrames() - mFrameCallback.getNumFrames();
             mTotal4PlusFrameStutters += mFrameCallback.get4PlusFrameStutters();
-            double fps = mFrameCallback.getFPS();
-            double jsFps = mFrameCallback.getJSFPS();
+            double fps = mFrameCallback.getFps();
+            double jsFps = mFrameCallback.getJsFPS();
 
             // Collect system resource usage
             double cpuUsage = 0;
