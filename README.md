@@ -1,7 +1,7 @@
 # 📱📊 react-native-performance-stats
 
 > [!CAUTION]
-> This library is unmaintained and deprecated. It's successor is:
+> This library is unmaintained and deprecated. Its successor is:
 > 
 > - https://github.com/Nodonisko/react-native-performance-toolkit
 
