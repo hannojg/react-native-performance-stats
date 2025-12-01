@@ -1,5 +1,10 @@
 # 📱📊 react-native-performance-stats
 
+> [!CAUTION]
+> This library is unmaintained and deprecated. It's successor is:
+> 
+> - https://github.com/Nodonisko/react-native-performance-toolkit
+
 Get performance metrics like UI Thread FPS, JS Thread FPS, App memory and CPU (just like the "Perf Monitor").
 
 ![react-native-performance-stats](./_images/react-native-performance-stats.webp)
